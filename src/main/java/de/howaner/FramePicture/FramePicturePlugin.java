@@ -16,40 +16,18 @@ public class FramePicturePlugin extends JavaPlugin {
 	private static FrameManager manager = null;
 	private static FramePicturePlugin instance;
 	private static Economy economy = null;
-	private boolean invalidBukkit = false;
-	
-	private void checkBukkitVersion() {
-		try {
-			Class.forName("net.minecraft.server.v1_8_R3.Packet");
-			this.invalidBukkit = false;
-		} catch (Exception e) {
-			this.invalidBukkit = true;
-			return;
-		}
-	}
 	
 	@Override
 	public void onLoad() {
 		log = this.getLogger();
 		instance = this;
-		
-		this.checkBukkitVersion();
-		if (!this.invalidBukkit)
-			manager = new FrameManager(this);
+		manager = new FrameManager(this);
 	}
 	
 	@Override
 	public void onEnable() {
 		if (log == null) log = this.getLogger();
 		if (instance == null) instance = this;
-		
-		//Check Bukkit Version
-		if (this.invalidBukkit) {
-			log.severe("You use a not-supported bukkit version!");
-			log.severe("This FramePicture version is for Spigot 1.8!");
-			Bukkit.getPluginManager().disablePlugin(this);
-			return;
-		}
 		
 		if (manager == null) manager = new FrameManager(this);
 		this.setupEconomy();
